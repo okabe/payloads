@@ -4,7 +4,7 @@ APP = ['stager.py']
 DATA_FILES = []
 OPTIONS = {
     'argv_emulation': True,
-    'iconfile': 'shield.ico'
+    'iconfile': 'templates/shield.ico'
 }
 
 setup(
