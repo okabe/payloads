@@ -4,3 +4,4 @@
     shellshock.log - old work of mine, but might as well include it here
     crons          - remote access crontabs
     shell.nse      - malicious NSE script for nmap SUID
+    nix            - OSX and GNU/Linux meterpreter setup
