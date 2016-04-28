@@ -1,0 +1,1 @@
+provision.sh creates 2 files (Dropper.jar, stager.py), when dropper is executed (on GNU/Linux or OSX or any other nix) a webrequest is made to exec stager.py, which then installs a crontab to run python/meterpreter/reverse_tcp shellcode
