@@ -1,5 +1,5 @@
 description = [[
-give me a shell
+if nmap is found to be SUID then use the --script flag to exec this and get a root shell
 ]]
 
 license = "Beerware - use however you want, just know that you owe me a beer"
